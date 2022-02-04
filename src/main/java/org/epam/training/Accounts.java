@@ -9,13 +9,8 @@ import java.util.Scanner;
 
 public class Accounts {
 
-  private static Integer accountId;
   private static String accountCurrency;
   Users users = new Users();
-
-  public static Integer getAccountId() {
-    return accountId;
-  }
 
   public static Integer getBalance() {
     System.out.println("Enter the amount you want to deposit");
@@ -37,25 +32,6 @@ public class Accounts {
     System.out.println("Choose your account currency: EUR, USD, BYN");
     Scanner scanner = new Scanner(System.in);
     accountCurrency = scanner.next();
-  }
-
-  public void setAccountId() {
-    try {
-      Class.forName(Constant.JDBC_DRIVER);
-      Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
-      try {
-        PreparedStatement statement = connection.prepareStatement(
-            "SELECT accountId FROM ACCOUNTS WHERE userId = ?");
-        statement.setInt(1, users.getUserId());
-        ResultSet resultSet = statement.executeQuery();
-        accountId = resultSet.getInt(1);
-        statement.close();
-      } finally {
-        connection.close();
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 
   public void createAccount() {
@@ -89,8 +65,8 @@ public class Accounts {
         System.out.println("Your accounts:");
         while (resultSet.next()) {
           String str = "UserID: " + resultSet.getString("userId")
-              + "\nBalance " + resultSet.getInt("balance")
-              + "\nCurrency " + resultSet.getString("currency");
+              + "\nBalance: " + resultSet.getInt("balance")
+              + "\nCurrency: " + resultSet.getString("currency");
           System.out.println(str);
           System.out.println("----------");
         }
@@ -116,10 +92,10 @@ public class Accounts {
         System.out.println("Your account:");
         while (resultSet.next()) {
           String str = "UserID: " + resultSet.getInt("userId")
-              + "\nBalance " + resultSet.getInt("balance")
-              + "\nCurrency " + resultSet.getString("currency");
+              + "\nBalance: " + resultSet.getInt("balance")
+              + "\nCurrency: " + resultSet.getString("currency");
           System.out.println(str);
-          System.out.println("--------------------");
+          System.out.println("----------");
         }
         resultSet.close();
         statement.close();

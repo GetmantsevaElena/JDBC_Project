@@ -11,7 +11,6 @@ public class Transactions {
   private static int transactionOption;
   private static int amount;
 
-
   public static int getTransaction() {
     return transactionOption;
   }
@@ -40,9 +39,9 @@ public class Transactions {
         PreparedStatement statement = connection.prepareStatement(
             "INSERT INTO TRANSACTIONS (accountId,amount) VALUES"
                 + " ((SELECT accountId FROM ACCOUNTS WHERE currency = ? AND userId = ?),?)");
+        statement.setString(1, Accounts.getAccountCurrency());
         statement.setInt(2, users.getUserId());
         statement.setInt(3, getAmount());
-        statement.setString(1, Accounts.getAccountCurrency());
         statement.executeUpdate();
         statement.close();
       } finally {

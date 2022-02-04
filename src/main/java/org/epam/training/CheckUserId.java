@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class CheckUserId {
 
   public static ArrayList<String> checkUserId() {
-
     ArrayList<String> userIdList = new ArrayList<>();
     try {
       Class.forName(Constant.JDBC_DRIVER);
