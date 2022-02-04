@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 public class Transactions {
 
-  Accounts accounts = new Accounts();
   Users users = new Users();
   private static int transactionOption;
 
@@ -34,9 +33,8 @@ public class Transactions {
       try {
         PreparedStatement statement = connection.prepareStatement(
             "INSERT INTO TRANSACTIONS (accountId,amount) VALUES (?,?)");
-        statement.setInt(1, accounts.getAccountId());
+        statement.setInt(1, Accounts.getAccountId());
         statement.setInt(2, getAmount());
-
         statement.executeUpdate();
         statement.close();
       } finally {
@@ -53,7 +51,7 @@ public class Transactions {
       Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
       try {
         PreparedStatement statement = connection.prepareStatement(
-            "UPDATE Accounts SET balance = balance + ? WHERE userId = ?"
+            "UPDATE ACCOUNTS SET balance = balance + ? WHERE userId = ?"
                 + " AND currency = ?");
         statement.setInt(1, getAmount());
         statement.setInt(2, users.getUserId());
@@ -74,7 +72,7 @@ public class Transactions {
       Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
       try {
         PreparedStatement statement = connection.prepareStatement(
-            "UPDATE Accounts SET balance = balance - ? WHERE userId = ?"
+            "UPDATE ACCOUNTS SET balance = balance - ? WHERE userId = ?"
                 + " AND currency = ?");
         statement.setInt(1, getAmount());
         statement.setInt(2, users.getUserId());

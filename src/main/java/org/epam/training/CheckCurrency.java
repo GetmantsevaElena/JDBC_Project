@@ -17,7 +17,7 @@ public class CheckCurrency {
       Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
       try {
         PreparedStatement statement = connection.prepareStatement(
-            "SELECT currency FROM Accounts WHERE userId = ?");
+            "SELECT currency FROM ACCOUNTS WHERE userId = ?");
         statement.setInt(1, users.getUserId());
         ResultSet resultSet = statement.executeQuery();
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();

@@ -3,7 +3,6 @@ package org.epam.training;
 public class Starter {
 
   public static void main(String[] args) {
-    //Almost works properly
     Users users = new Users();
     Accounts accounts = new Accounts();
     Transactions transactions = new Transactions();
@@ -12,21 +11,18 @@ public class Starter {
     if (CheckUserId.checkUserId().contains(users.getUserId().toString())) {
       accounts.showAccount();
       System.out.println("Please choose your account currency");
-      accounts.setAccountCurrency();
-      accounts.showChoosenAccount();
-//      In progress
-//      if (CheckCurrency.checkCurrency().contains(accounts.getAccountCurrency())) {
-//        accounts.showAccount();
-//      } else {
-//        System.out.println("You don`t have account in this currency. Please create it");
-//        accounts.createAccount();
-//        if (CheckCurrency.checkCurrency().contains(accounts.getAccountCurrency())) {
-//          System.out.println("You already have an account in this currency");
-//        } else {
-//          accounts.showAccount();
-//        }
-//      }
-
+      Accounts.setAccountCurrency();
+      if (CheckCurrency.checkCurrency().contains(Accounts.getAccountCurrency())) {
+        accounts.showChoosenAccount();
+      } else {
+        System.out.println("You don`t have account in this currency. Please create it");
+        accounts.createAccount();
+        if (CheckCurrency.checkCurrency().contains(Accounts.getAccountCurrency())) {
+          System.out.println("Your already have account in this currency");
+        } else {
+          accounts.showAccount();
+        }
+      }
       System.out.println("Please choose transaction:");
       transactions.setTransaction();
       if (Transactions.getTransaction() == 1) {
@@ -38,7 +34,6 @@ public class Starter {
           accounts.showChoosenAccount();
         }
       }
-
     } else {
       Users.setName();
       Users.setAddress();
@@ -46,8 +41,6 @@ public class Starter {
       accounts.createAccount();
       accounts.showAccount();
       accounts.setAccountId();
-      transactions.setTransaction();
-      System.out.println("Please choose transaction:");
       transactions.setTransaction();
       if (Transactions.getTransaction() == 1) {
         transactions.createTransaction();
@@ -61,11 +54,6 @@ public class Starter {
         }
       }
     }
-
-    //Not realized
-    //Transactions.showAccount();
-    //CheckUserId();
-
   }
 }
 
