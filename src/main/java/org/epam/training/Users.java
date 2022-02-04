@@ -11,17 +11,18 @@ public class Users {
   private static String name;
   private static String address;
 
-  public Integer getUserId(){
+  public Integer getUserId() {
     return userId;
   }
 
-  public String getName(){
+  public String getName() {
     return name;
   }
 
-  public String getAddress(){
+  public String getAddress() {
     return address;
   }
+
   public static void setUserId() {
     System.out.println("Enter your phone number");
     Scanner scanner = new Scanner(System.in);

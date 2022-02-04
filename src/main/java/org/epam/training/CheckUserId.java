@@ -7,7 +7,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class CheckUserId extends Transactions {
+public class CheckUserId {
 
   public static ArrayList<String> checkUserId() {
 
@@ -30,8 +30,8 @@ public class CheckUserId extends Transactions {
             userIdList.add(resultSet.getString(i++));
           }
         }
-          resultSet.close();
-          statement.close();
+        resultSet.close();
+        statement.close();
       } finally {
         connection.close();
       }

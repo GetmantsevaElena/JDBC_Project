@@ -41,7 +41,6 @@ public class Accounts {
   }
 
   public void createAccount() {
-
     try {
       Class.forName(Constant.JDBC_DRIVER);
       String url = Constant.DATABASE_URL;
@@ -50,9 +49,7 @@ public class Accounts {
       Connection connection = DriverManager.getConnection(url, login, password);
       try {
         PreparedStatement statement = connection.prepareStatement(
-            "INSERT INTO ACCOUNTS (userId,balance,currency)"
-                + " VALUES (?,?,?)");
-        //In the next line I have an exception, because of NULL...I have no idea why
+            "INSERT INTO ACCOUNTS (userId,balance,currency) VALUES (?,?,?)");
         statement.setInt(1, users.getUserId());
         statement.setString(2, getBalance());
         statement.setString(3, getCurrency());
@@ -67,7 +64,6 @@ public class Accounts {
   }
 
   public void showAccount() {
-
     try {
       Class.forName(Constant.JDBC_DRIVER);
       String url = Constant.DATABASE_URL;
@@ -97,7 +93,6 @@ public class Accounts {
   }
 
   public void showChoosenAccount() {
-
     try {
       Class.forName(Constant.JDBC_DRIVER);
       String url = Constant.DATABASE_URL;
@@ -125,7 +120,6 @@ public class Accounts {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
   }
 }
 

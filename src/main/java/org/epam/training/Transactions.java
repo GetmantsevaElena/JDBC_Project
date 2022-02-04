@@ -10,7 +10,6 @@ import java.util.Scanner;
 public class Transactions extends Accounts {
 
 
-
   public String getTransaction() {
     System.out.println("1 - to pop up your balance\n2 - to withdrawal cash");
     Scanner scanner = new Scanner(System.in);
