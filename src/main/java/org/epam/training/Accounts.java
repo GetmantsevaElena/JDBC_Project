@@ -4,13 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Scanner;
 
 public class Accounts {
 
-
-
   private String accountId;
+  private String accountCurrency;
+  Users users = new Users();
 
   public String getAccountId() {
     return accountId;
@@ -20,27 +21,27 @@ public class Accounts {
     this.accountId = accountId;
   }
 
-  public String getBalance() {
+  public static String getBalance() {
     System.out.println("Enter the amount you want to deposit");
     Scanner scanner = new Scanner(System.in);
     return scanner.next();
   }
 
-  public String getCurrency() {
-    System.out.println("Enter currency: EUR, USD, BYN");
+  public static String getCurrency() {
+    System.out.println("Enter currency of your deposit: EUR, USD, BYN");
     Scanner scanner = new Scanner(System.in);
     return scanner.next();
   }
 
   public String getAccountCurrency() {
-    System.out.println("Choose account currency: EUR, USD, BYN");
+    System.out.println("Choose your account currency: EUR, USD, BYN");
     Scanner scanner = new Scanner(System.in);
-    return scanner.next();
+    accountCurrency = scanner.next();
+    return accountCurrency;
   }
 
-  public static void createAccount() {
-    Users users = new Users();
-    Accounts accounts = new Accounts();
+  public void createAccount() {
+
     try {
       Class.forName(Constant.JDBC_DRIVER);
       String url = Constant.DATABASE_URL;
@@ -53,8 +54,8 @@ public class Accounts {
                 + " VALUES (?,?,?)");
         //In the next line I have an exception, because of NULL...I have no idea why
         statement.setInt(1, users.getUserId());
-        statement.setString(2, accounts.getBalance());
-        statement.setString(3, accounts.getCurrency());
+        statement.setString(2, getBalance());
+        statement.setString(3, getCurrency());
         statement.executeUpdate();
         statement.close();
       } finally {
@@ -66,7 +67,6 @@ public class Accounts {
   }
 
   public void showAccount() {
-    Users users = new Users();
 
     try {
       Class.forName(Constant.JDBC_DRIVER);
@@ -75,20 +75,50 @@ public class Accounts {
       String password = "pass";
       Connection connection = DriverManager.getConnection(url, login, password);
       try {
-        PreparedStatement statement = connection.prepareStatement(
-            "SELECT * FROM Accounts WHERE userId = ? AND currency = ?");
-
-        statement.setString(1, "%" + users.getUserId() + "%");
-        statement.setString(2, "%" + getAccountCurrency() + "%");
-        ResultSet resultSet = statement.executeQuery();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(
+            "SELECT * FROM Accounts WHERE userId = " + "'" + users.getUserId() + "'");
+        System.out.println("Your accounts:");
         while (resultSet.next()) {
           String str = "UserID: " + resultSet.getString("userId")
               + "\nBalance " + resultSet.getString("balance")
               + "\nCurrency " + resultSet.getString("currency");
-          System.out.println(str + " " + users.getUserId() +""+getAccountCurrency());
-          resultSet.close();
-          statement.close();
+          System.out.println(str);
+          System.out.println("--------------------");
         }
+        resultSet.close();
+        statement.close();
+      } finally {
+        connection.close();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void showChoosenAccount() {
+
+    try {
+      Class.forName(Constant.JDBC_DRIVER);
+      String url = Constant.DATABASE_URL;
+      String login = "user";
+      String password = "pass";
+      Connection connection = DriverManager.getConnection(url, login, password);
+      try {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(
+            "SELECT * FROM Accounts WHERE currency = " + "'" + accountCurrency + "'" +
+                "AND userId = " + "'" + users.getUserId() + "'");
+        System.out.println("Your account:");
+        while (resultSet.next()) {
+          String str = "UserID: " + resultSet.getString("userId")
+              + "\nBalance " + resultSet.getString("balance")
+              + "\nCurrency " + resultSet.getString("currency");
+          System.out.println(str);
+          System.out.println("--------------------");
+        }
+        resultSet.close();
+        statement.close();
       } finally {
         connection.close();
       }
@@ -98,3 +128,4 @@ public class Accounts {
 
   }
 }
+

@@ -5,32 +5,38 @@ public class Starter {
   public static void main(String[] args) {
     //Almost works properly
     Users users = new Users();
-    Transactions transactions = new Transactions();
-    CheckCurrency checkCurrency = new CheckCurrency();
+
     Accounts accounts = new Accounts();
 
-    int userId = users.UserId();
-    users.setUserId(userId);
+    Users.setUserId();
     if (CheckUserId.checkUserId().contains(users.getUserId().toString())) {
-      //if(CheckCurrency.checkCurrency().contains())
-      System.out.println("You already have an accounts. Please choose currency");
-      //accounts.getAccountCurrency();
       accounts.showAccount();
+      System.out.println("Please choose your account currency");
+      accounts.getAccountCurrency();
+      accounts.showChoosenAccount();
+
+//      if (CheckCurrency.checkCurrency().contains(accounts.getAccountCurrency())) {
+//        accounts.showAccount();
+//      } else {
+//        System.out.println("You don`t have account in this currency. Please create it");
+//        accounts.createAccount();
+//        if (CheckCurrency.checkCurrency().contains(accounts.getAccountCurrency())) {
+//          System.out.println("You already have an account in this currency");
+//        } else {
+//          accounts.showAccount();
+//        }
+//      }
+
 //      System.out.println("Please choose operation:");
 //      transactions.getTransaction();
     } else {
-      String name = users.Name();
-      users.setName(name);
-      String address = users.Address();
-      users.setAddress(address);
-      Users.addUser();
-      Accounts.createAccount();
+      Users.setName();
+      Users.setAddress();
+      users.addUser();
+      accounts.createAccount();
       accounts.showAccount();
-      transactions.getTransaction();
+//      transactions.getTransaction();
     }
-
-
-
 
     //Almost works properly
     //Accounts.createAccount();

@@ -11,8 +11,7 @@ public class CheckUserId extends Transactions {
 
   public static ArrayList<String> checkUserId() {
 
-    int columnCount = 0;
-    ArrayList<String> userIdList = new ArrayList<>(columnCount);
+    ArrayList<String> userIdList = new ArrayList<>();
     try {
       Class.forName(Constant.JDBC_DRIVER);
       String url = Constant.DATABASE_URL;
@@ -23,16 +22,16 @@ public class CheckUserId extends Transactions {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT userId FROM USERS");
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-        columnCount = resultSetMetaData.getColumnCount();
-
+        int columnCount = resultSetMetaData.getColumnCount();
+        userIdList = new ArrayList<>(columnCount);
         while (resultSet.next()) {
           int i = 1;
           while (i <= columnCount) {
             userIdList.add(resultSet.getString(i++));
           }
+        }
           resultSet.close();
           statement.close();
-        }
       } finally {
         connection.close();
       }
