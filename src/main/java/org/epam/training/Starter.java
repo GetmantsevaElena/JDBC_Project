@@ -14,7 +14,7 @@ public class Starter {
       System.out.println("Please choose your account currency");
       accounts.getAccountCurrency();
       accounts.showChoosenAccount();
-
+//      In progress
 //      if (CheckCurrency.checkCurrency().contains(accounts.getAccountCurrency())) {
 //        accounts.showAccount();
 //      } else {
@@ -38,8 +38,6 @@ public class Starter {
 //      transactions.getTransaction();
     }
 
-    //Almost works properly
-    //Accounts.createAccount();
     //Not realized
     //Transactions.showAccount();
     //CheckUserId();
