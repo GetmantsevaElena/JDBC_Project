@@ -15,14 +15,6 @@ public class Users {
     return userId;
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public String getAddress() {
-    return address;
-  }
-
   public static void setUserId() {
     System.out.println("Enter your phone number");
     Scanner scanner = new Scanner(System.in);
@@ -44,10 +36,7 @@ public class Users {
   public void addUser() {
     try {
       Class.forName(Constant.JDBC_DRIVER);
-      String url = Constant.DATABASE_URL;
-      String login = "user";
-      String password = "pass";
-      Connection connection = DriverManager.getConnection(url, login, password);
+      Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
       try {
         PreparedStatement statement = connection.prepareStatement
             ("INSERT INTO USERS (userId, name, address) VALUES ( ?, ?, ?)");

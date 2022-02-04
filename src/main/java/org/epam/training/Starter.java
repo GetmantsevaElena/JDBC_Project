@@ -5,14 +5,14 @@ public class Starter {
   public static void main(String[] args) {
     //Almost works properly
     Users users = new Users();
-
     Accounts accounts = new Accounts();
+    Transactions transactions = new Transactions();
 
     Users.setUserId();
     if (CheckUserId.checkUserId().contains(users.getUserId().toString())) {
       accounts.showAccount();
       System.out.println("Please choose your account currency");
-      accounts.getAccountCurrency();
+      accounts.setAccountCurrency();
       accounts.showChoosenAccount();
 //      In progress
 //      if (CheckCurrency.checkCurrency().contains(accounts.getAccountCurrency())) {
@@ -27,15 +27,39 @@ public class Starter {
 //        }
 //      }
 
-//      System.out.println("Please choose operation:");
-//      transactions.getTransaction();
+      System.out.println("Please choose transaction:");
+      transactions.setTransaction();
+      if (Transactions.getTransaction() == 1) {
+        transactions.popUpBalance();
+        accounts.showChoosenAccount();
+      } else {
+        if (Transactions.getTransaction() == 2) {
+          transactions.withdrawalCash();
+          accounts.showChoosenAccount();
+        }
+      }
+
     } else {
       Users.setName();
       Users.setAddress();
       users.addUser();
       accounts.createAccount();
       accounts.showAccount();
-//      transactions.getTransaction();
+      accounts.setAccountId();
+      transactions.setTransaction();
+      System.out.println("Please choose transaction:");
+      transactions.setTransaction();
+      if (Transactions.getTransaction() == 1) {
+        transactions.createTransaction();
+        transactions.popUpBalance();
+        accounts.showChoosenAccount();
+      } else {
+        if (Transactions.getTransaction() == 2) {
+          transactions.createTransaction();
+          transactions.withdrawalCash();
+          accounts.showChoosenAccount();
+        }
+      }
     }
 
     //Not realized

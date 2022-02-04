@@ -1,88 +1,92 @@
 package org.epam.training;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 
-public class Transactions extends Accounts {
+public class Transactions {
 
+  Accounts accounts = new Accounts();
+  Users users = new Users();
+  private static int transactionOption;
 
-  public String getTransaction() {
+  public static int getTransaction() {
+    return transactionOption;
+  }
+
+  public void setTransaction() {
     System.out.println("1 - to pop up your balance\n2 - to withdrawal cash");
     Scanner scanner = new Scanner(System.in);
-    return scanner.next();
+    transactionOption = scanner.nextInt();
   }
 
-  public String getAmount() {
+  public Integer getAmount() {
     System.out.println("Enter your amount");
     Scanner scanner = new Scanner(System.in);
-    return scanner.next();
+    return scanner.nextInt();
   }
 
-//  public static void Account() {
-//
-//    Transactions s = new Transactions();
-//
-//    try {
-//      Class.forName(Constant.JDBC_DRIVER);
-//      String url = Constant.DATABASE_URL;
-//      String login = "user";
-//      String password = "pass";
-//      Connection con = DriverManager.getConnection(url, login, password);
-//      try {
-//        Actually that`s not working)
-//        return switch (s.getTransaction()) {
-//          case "1" -> s.popUpBalance(con);
-//          case "2" -> s.withdrawalCash(con);
-//        };
-//      } finally {
-//        con.close();
-//      }
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//    }
-//  }
-//
-//  private void createTransaction(Connection con) throws SQLException {
-//    PreparedStatement stmt = con.prepareStatement("INSERT INTO TRANSACTIONS"
-//        + " (accountId, amount) VALUES (?,?)");
-//    stmt.setString(1, getAccountId());
-//    stmt.setString(2, getAmount());
-//    stmt.executeUpdate();
-//    stmt.close();
-//  }
+  public void createTransaction() {
+    try {
+      Class.forName(Constant.JDBC_DRIVER);
+      Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
+      try {
+        PreparedStatement statement = connection.prepareStatement(
+            "INSERT INTO TRANSACTIONS (accountId,amount) VALUES (?,?)");
+        statement.setInt(1, accounts.getAccountId());
+        statement.setInt(2, getAmount());
 
-  private void popUpBalance(Connection con) throws SQLException {
-    PreparedStatement stmt = con.prepareStatement("UPDATE ACCOUNTS SET balance = ?");
-    stmt.setString(1, getAccountId());
-
-    stmt.executeUpdate();
-    stmt.close();
-  }
-
-  private void withdrawalCash(Connection con) throws SQLException {
-    PreparedStatement stmt = con.prepareStatement("INSERT INTO TRANSACTIONS (accountId,amount)"
-        + "(?,?)");
-    stmt.setString(1, getAccountId());
-    stmt.setString(2, getBalance());
-    stmt.executeUpdate();
-    stmt.close();
-  }
-
-  private void showBalance(Connection con) throws SQLException {
-    Statement stmt = con.createStatement();
-    ResultSet rs = stmt.executeQuery("SELECT * FROM TRANSACTIONS");
-    while (rs.next()) {
-      String str =
-          rs.getString(1) +
-              ":" + rs.getString(2) +
-              ":" + rs.getString(3);
-      System.out.println(str);
+        statement.executeUpdate();
+        statement.close();
+      } finally {
+        connection.close();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-    rs.close();
-    stmt.close();
+  }
+
+  public void popUpBalance() {
+    try {
+      Class.forName(Constant.JDBC_DRIVER);
+      Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
+      try {
+        PreparedStatement statement = connection.prepareStatement(
+            "UPDATE Accounts SET balance = balance + ? WHERE userId = ?"
+                + " AND currency = ?");
+        statement.setInt(1, getAmount());
+        statement.setInt(2, users.getUserId());
+        statement.setString(3, Accounts.getAccountCurrency());
+        statement.executeUpdate();
+        statement.close();
+      } finally {
+        connection.close();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void withdrawalCash() {
+    try {
+      Class.forName(Constant.JDBC_DRIVER);
+      Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
+      try {
+        PreparedStatement statement = connection.prepareStatement(
+            "UPDATE Accounts SET balance = balance - ? WHERE userId = ?"
+                + " AND currency = ?");
+        statement.setInt(1, getAmount());
+        statement.setInt(2, users.getUserId());
+        statement.setString(3, Accounts.getAccountCurrency());
+        statement.executeUpdate();
+        statement.close();
+      } finally {
+        connection.close();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
+

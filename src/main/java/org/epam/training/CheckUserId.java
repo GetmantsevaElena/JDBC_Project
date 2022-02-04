@@ -14,10 +14,7 @@ public class CheckUserId {
     ArrayList<String> userIdList = new ArrayList<>();
     try {
       Class.forName(Constant.JDBC_DRIVER);
-      String url = Constant.DATABASE_URL;
-      String login = "user";
-      String password = "pass";
-      Connection connection = DriverManager.getConnection(url, login, password);
+      Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
       try {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT userId FROM USERS");
