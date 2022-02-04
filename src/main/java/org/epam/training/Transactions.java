@@ -9,21 +9,27 @@ public class Transactions {
 
   Users users = new Users();
   private static int transactionOption;
+  private static int amount;
+
 
   public static int getTransaction() {
     return transactionOption;
   }
 
   public void setTransaction() {
-    System.out.println("1 - to pop up your balance\n2 - to withdrawal cash");
+    System.out.println("1 - to pop up your balance\n2 - to withdrawal cash\n3 - exit");
     Scanner scanner = new Scanner(System.in);
     transactionOption = scanner.nextInt();
   }
 
-  public Integer getAmount() {
+  public static int getAmount() {
+    return amount;
+  }
+
+  public void setAmount() {
     System.out.println("Enter your amount");
     Scanner scanner = new Scanner(System.in);
-    return scanner.nextInt();
+    amount = scanner.nextInt();
   }
 
   public void createTransaction() {
@@ -32,9 +38,11 @@ public class Transactions {
       Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
       try {
         PreparedStatement statement = connection.prepareStatement(
-            "INSERT INTO TRANSACTIONS (accountId,amount) VALUES (?,?)");
-        statement.setInt(1, Accounts.getAccountId());
-        statement.setInt(2, getAmount());
+            "INSERT INTO TRANSACTIONS (accountId,amount) VALUES"
+                + " ((SELECT accountId FROM ACCOUNTS WHERE currency = ? AND userId = ?),?)");
+        statement.setInt(2, users.getUserId());
+        statement.setInt(3, getAmount());
+        statement.setString(1, Accounts.getAccountCurrency());
         statement.executeUpdate();
         statement.close();
       } finally {

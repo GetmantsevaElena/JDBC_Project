@@ -18,20 +18,29 @@ public class Starter {
         System.out.println("You don`t have account in this currency. Please create it");
         accounts.createAccount();
         if (CheckCurrency.checkCurrency().contains(Accounts.getAccountCurrency())) {
-          System.out.println("Your already have account in this currency");
+          accounts.showChoosenAccount();
         } else {
-          accounts.showAccount();
+          System.out.println("Your already have account in this currency");
+
         }
       }
       System.out.println("Please choose transaction:");
       transactions.setTransaction();
+      transactions.setAmount();
+      accounts.setAccountId();
       if (Transactions.getTransaction() == 1) {
+        transactions.createTransaction();
         transactions.popUpBalance();
         accounts.showChoosenAccount();
       } else {
         if (Transactions.getTransaction() == 2) {
+          transactions.createTransaction();
           transactions.withdrawalCash();
           accounts.showChoosenAccount();
+        } else if (Transactions.getTransaction() == 3) {
+          accounts.setAccountId();
+          transactions.createTransaction();
+          System.exit(0);
         }
       }
     } else {
@@ -40,8 +49,9 @@ public class Starter {
       users.addUser();
       accounts.createAccount();
       accounts.showAccount();
-      accounts.setAccountId();
       transactions.setTransaction();
+      transactions.setAmount();
+      accounts.setAccountId();
       if (Transactions.getTransaction() == 1) {
         transactions.createTransaction();
         transactions.popUpBalance();

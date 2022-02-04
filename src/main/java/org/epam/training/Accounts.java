@@ -92,7 +92,7 @@ public class Accounts {
               + "\nBalance " + resultSet.getInt("balance")
               + "\nCurrency " + resultSet.getString("currency");
           System.out.println(str);
-          System.out.println("------------");
+          System.out.println("----------");
         }
         resultSet.close();
         statement.close();
