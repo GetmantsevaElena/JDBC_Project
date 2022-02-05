@@ -27,7 +27,6 @@ public class Starter {
       System.out.println("Please choose transaction:");
       transactions.setTransaction();
       transactions.setAmount();
-      //accounts.setAccountId();
       if (Transactions.getTransaction() == 1) {
         transactions.createTransaction();
         transactions.popUpBalance();
@@ -38,7 +37,6 @@ public class Starter {
           transactions.withdrawalCash();
           accounts.showChoosenAccount();
         } else if (Transactions.getTransaction() == 3) {
-          //accounts.setAccountId();
           transactions.createTransaction();
           System.exit(0);
         }
@@ -51,7 +49,6 @@ public class Starter {
       accounts.showAccount();
       transactions.setTransaction();
       transactions.setAmount();
-      //accounts.setAccountId();
       if (Transactions.getTransaction() == 1) {
         transactions.createTransaction();
         transactions.popUpBalance();
