@@ -10,18 +10,28 @@ import java.util.Scanner;
 public class Accounts {
 
   private static String accountCurrency;
+  private static String currency;
+  private static Integer balance;
   Users users = new Users();
 
   public static Integer getBalance() {
-    System.out.println("Enter the amount you want to deposit");
-    Scanner scanner = new Scanner(System.in);
-    return scanner.nextInt();
+    return balance;
   }
 
-  public static String getCurrency() {
+  public static void setBalance() {
+    System.out.println("Enter the amount you want to deposit");
+    Scanner scanner = new Scanner(System.in);
+    balance = scanner.nextInt();
+  }
+
+  public static String getDepositCurrency() {
+    return currency;
+  }
+
+  public static void setDepositCurrency() {
     System.out.println("Enter currency of your deposit: EUR, USD, BYN");
     Scanner scanner = new Scanner(System.in);
-    return scanner.next();
+    currency = scanner.next();
   }
 
   public static String getAccountCurrency() {
@@ -43,7 +53,7 @@ public class Accounts {
             "INSERT INTO ACCOUNTS (userId,balance,currency) VALUES (?,?,?)");
         statement.setInt(1, users.getUserId());
         statement.setInt(2, getBalance());
-        statement.setString(3, getCurrency());
+        statement.setString(3, getDepositCurrency());
         statement.executeUpdate();
         statement.close();
       } finally {
@@ -54,7 +64,7 @@ public class Accounts {
     }
   }
 
-  public void showAccount() {
+  public void showUserAccounts() {
     try {
       Class.forName(Constant.JDBC_DRIVER);
       Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
@@ -68,7 +78,7 @@ public class Accounts {
               + "\nBalance: " + resultSet.getInt("balance")
               + "\nCurrency: " + resultSet.getString("currency");
           System.out.println(str);
-          System.out.println("----------");
+          System.out.println("----------------");
         }
         resultSet.close();
         statement.close();
@@ -80,7 +90,34 @@ public class Accounts {
     }
   }
 
-  public void showChoosenAccount() {
+  public void showCreatedAccount() {
+    try {
+      Class.forName(Constant.JDBC_DRIVER);
+      Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
+      try {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(
+            "SELECT * FROM ACCOUNTS WHERE currency = " + "'" + getDepositCurrency()
+                + "'" + "AND userId = " + "'" + users.getUserId() + "'");
+        System.out.println("Your account:");
+        while (resultSet.next()) {
+          String str = "UserID: " + resultSet.getInt("userId")
+              + "\nBalance: " + resultSet.getInt("balance")
+              + "\nCurrency: " + resultSet.getString("currency");
+          System.out.println(str);
+          System.out.println("----------------");
+        }
+        resultSet.close();
+        statement.close();
+      } finally {
+        connection.close();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void showAccountAfterTransaction() {
     try {
       Class.forName(Constant.JDBC_DRIVER);
       Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
@@ -95,7 +132,33 @@ public class Accounts {
               + "\nBalance: " + resultSet.getInt("balance")
               + "\nCurrency: " + resultSet.getString("currency");
           System.out.println(str);
-          System.out.println("----------");
+          System.out.println("-------------");
+        }
+        resultSet.close();
+        statement.close();
+      } finally {
+        connection.close();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+  public void showCurrentAccount() {
+    try {
+      Class.forName(Constant.JDBC_DRIVER);
+      Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
+      try {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(
+            "SELECT * FROM ACCOUNTS WHERE currency = " + "'" + getAccountCurrency()
+                + "'" + "AND userId = " + "'" + users.getUserId() + "'");
+        System.out.println("Your account:");
+        while (resultSet.next()) {
+          String str = "UserID: " + resultSet.getInt("userId")
+              + "\nBalance: " + resultSet.getInt("balance")
+              + "\nCurrency: " + resultSet.getString("currency");
+          System.out.println(str);
+          System.out.println("-------------");
         }
         resultSet.close();
         statement.close();
