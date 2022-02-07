@@ -12,9 +12,13 @@ public class Menu {
         Accounts.setAccountCurrency();
         if (CheckCurrency.checkCurrency().contains(Accounts.getAccountCurrency())) {
           transactions.setAmount();
-          transactions.popUpBalance();
-          accounts.showAccountAfterTransaction();
-          transactions.createTransactionExistedAccount();
+          if ((Transactions.getAmount() + CheckBalance.checkBalance()) <= 2000000000) {
+            transactions.popUpBalance();
+            accounts.showAccountAfterTransaction();
+            transactions.createTransactionExistedAccount();
+          } else {
+            System.out.println("Sorry, account limit is exceeded");
+          }
         } else {
           System.out.println("You don`t have account in this currency. Please create it");
           Accounts.setDepositCurrency();
@@ -28,9 +32,13 @@ public class Menu {
           Accounts.setAccountCurrency();
           if (CheckCurrency.checkCurrency().contains(Accounts.getAccountCurrency())) {
             transactions.setAmount();
-            transactions.withdrawalCash();
-            accounts.showAccountAfterTransaction();
-            transactions.createTransactionExistedAccount();
+            if (Transactions.getAmount() < CheckBalance.checkBalance()) {
+              transactions.withdrawalCash();
+              accounts.showAccountAfterTransaction();
+              transactions.createTransactionExistedAccount();
+            } else {
+              System.out.println("Sorry, insufficient funds");
+            }
           } else {
             System.out.println("You don`t have account in this currency. Please create it");
             Accounts.setDepositCurrency();

@@ -31,7 +31,7 @@ public class Transactions {
   }
 
   public void setAmount() {
-    System.out.println("Enter your amount");
+    System.out.println("Enter your amount:");
     Scanner scanner = new Scanner(System.in);
     amount = scanner.nextInt();
   }
