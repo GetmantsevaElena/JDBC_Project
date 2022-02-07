@@ -7,9 +7,9 @@ import java.sql.Statement;
 
 public class CheckBalance {
 
-  private static int balance = 0;
+  private static Double balance = 0.0;
 
-  public static int checkBalance() {
+  public static Double checkBalance() {
     Users users = new Users();
     try {
       Class.forName(Constant.JDBC_DRIVER);
@@ -20,7 +20,7 @@ public class CheckBalance {
             + " FROM ACCOUNTS WHERE userId =" + "'" + users.getUserId() + "'" + " AND"
             + " currency = " + "'" + Accounts.getAccountCurrency() + "'");
         while (resultSet.next()) {
-          balance = resultSet.getInt(1);
+          balance = resultSet.getDouble(1);
         }
         resultSet.close();
         statement.close();

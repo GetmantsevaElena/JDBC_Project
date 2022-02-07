@@ -14,7 +14,7 @@ public class NewUser {
     Accounts.setDepositCurrency();
     Accounts.setBalance();
     accounts.createAccount();
-    transactions.createTransactionNewAccount();
+    transactions.createPopUpNewAccountTransaction();
     accounts.showCreatedAccount();
     Menu.menuOptionals();
   }

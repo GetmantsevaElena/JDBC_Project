@@ -9,7 +9,7 @@ public class Transactions {
 
   Users users = new Users();
   private static int transactionOption;
-  private static int checkedAmount;
+  private static Double checkedAmount;
 
   public static int getTransaction() {
     return transactionOption;
@@ -26,14 +26,14 @@ public class Transactions {
     transactionOption = scanner.nextInt();
   }
 
-  public static int getAmount() {
+  public static Double getAmount() {
     return checkedAmount;
   }
 
   public void setAmount() {
     System.out.println("Enter your amount:");
     Scanner scanner = new Scanner(System.in);
-    int amount = scanner.nextInt();
+    Double amount = scanner.nextDouble();
     if (amount <= 100000000) {
       checkedAmount = amount;
     }
@@ -43,7 +43,7 @@ public class Transactions {
     }
   }
 
-  public void createTransactionExistedAccount() {
+  public void createPopUpExistedAccountTransaction() {
     try {
       Class.forName(Constant.JDBC_DRIVER);
       Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
@@ -53,7 +53,7 @@ public class Transactions {
                 + " ((SELECT accountId FROM ACCOUNTS WHERE currency = ? AND userId = ?),?)");
         statement.setString(1, Accounts.getAccountCurrency());
         statement.setInt(2, users.getUserId());
-        statement.setInt(3, getAmount());
+        statement.setDouble(3, getAmount());
         statement.executeUpdate();
         statement.close();
       } finally {
@@ -64,7 +64,7 @@ public class Transactions {
     }
   }
 
-  public void createTransactionNewAccount() {
+  public void createPopUpNewAccountTransaction() {
     try {
       Class.forName(Constant.JDBC_DRIVER);
       Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
@@ -74,7 +74,49 @@ public class Transactions {
                 + " ((SELECT accountId FROM ACCOUNTS WHERE currency = ? AND userId = ?),?)");
         statement.setString(1, Accounts.getDepositCurrency());
         statement.setInt(2, users.getUserId());
-        statement.setInt(3, Accounts.getBalance());
+        statement.setDouble(3, Accounts.getBalance());
+        statement.executeUpdate();
+        statement.close();
+      } finally {
+        connection.close();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void createWithdrawalExistedAccountTransaction() {
+    try {
+      Class.forName(Constant.JDBC_DRIVER);
+      Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
+      try {
+        PreparedStatement statement = connection.prepareStatement(
+            "INSERT INTO TRANSACTIONS (accountId,amount) VALUES"
+                + " ((SELECT accountId FROM ACCOUNTS WHERE currency = ? AND userId = ?),-?)");
+        statement.setString(1, Accounts.getAccountCurrency());
+        statement.setInt(2, users.getUserId());
+        statement.setDouble(3, getAmount());
+        statement.executeUpdate();
+        statement.close();
+      } finally {
+        connection.close();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void createWithdrawalNewAccountTransaction() {
+    try {
+      Class.forName(Constant.JDBC_DRIVER);
+      Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
+      try {
+        PreparedStatement statement = connection.prepareStatement(
+            "INSERT INTO TRANSACTIONS (accountId,amount) VALUES"
+                + " ((SELECT accountId FROM ACCOUNTS WHERE currency = ? AND userId = ?),-?)");
+        statement.setString(1, Accounts.getDepositCurrency());
+        statement.setInt(2, users.getUserId());
+        statement.setDouble(3, Accounts.getBalance());
         statement.executeUpdate();
         statement.close();
       } finally {
@@ -93,7 +135,7 @@ public class Transactions {
         PreparedStatement statement = connection.prepareStatement(
             "UPDATE ACCOUNTS SET balance = balance + ? WHERE userId = ?"
                 + " AND currency = ?");
-        statement.setInt(1, getAmount());
+        statement.setDouble(1, getAmount());
         statement.setInt(2, users.getUserId());
         statement.setString(3, Accounts.getAccountCurrency());
         statement.executeUpdate();
@@ -114,7 +156,7 @@ public class Transactions {
         PreparedStatement statement = connection.prepareStatement(
             "UPDATE ACCOUNTS SET balance = balance - ? WHERE userId = ?"
                 + " AND currency = ?");
-        statement.setInt(1, getAmount());
+        statement.setDouble(1, getAmount());
         statement.setInt(2, users.getUserId());
         statement.setString(3, Accounts.getAccountCurrency());
         statement.executeUpdate();

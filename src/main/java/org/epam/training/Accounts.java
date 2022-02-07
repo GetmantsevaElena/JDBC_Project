@@ -11,17 +11,17 @@ public class Accounts {
 
   private static String accountCurrency;
   private static String currency;
-  private static Integer balance;
+  private static Double balance;
   Users users = new Users();
 
-  public static Integer getBalance() {
+  public static Double getBalance() {
     return balance;
   }
 
   public static void setBalance() {
     System.out.println("Enter the amount you want to deposit");
     Scanner scanner = new Scanner(System.in);
-    balance = scanner.nextInt();
+    balance = scanner.nextDouble();
   }
 
   public static String getDepositCurrency() {
@@ -52,7 +52,7 @@ public class Accounts {
         PreparedStatement statement = connection.prepareStatement(
             "INSERT INTO ACCOUNTS (userId,balance,currency) VALUES (?,?,?)");
         statement.setInt(1, users.getUserId());
-        statement.setInt(2, getBalance());
+        statement.setDouble(2, getBalance());
         statement.setString(3, getDepositCurrency());
         statement.executeUpdate();
         statement.close();
@@ -75,7 +75,7 @@ public class Accounts {
         System.out.println("Your accounts:");
         while (resultSet.next()) {
           String str = "UserID: " + resultSet.getString("userId")
-              + "\nBalance: " + resultSet.getInt("balance")
+              + "\nBalance: " + resultSet.getDouble("balance")
               + "\nCurrency: " + resultSet.getString("currency");
           System.out.println(str);
           System.out.println("----------------");
@@ -102,7 +102,7 @@ public class Accounts {
         System.out.println("Your account:");
         while (resultSet.next()) {
           String str = "UserID: " + resultSet.getInt("userId")
-              + "\nBalance: " + resultSet.getInt("balance")
+              + "\nBalance: " + resultSet.getDouble("balance")
               + "\nCurrency: " + resultSet.getString("currency");
           System.out.println(str);
           System.out.println("----------------");
@@ -129,7 +129,7 @@ public class Accounts {
         System.out.println("Your account:");
         while (resultSet.next()) {
           String str = "UserID: " + resultSet.getInt("userId")
-              + "\nBalance: " + resultSet.getInt("balance")
+              + "\nBalance: " + resultSet.getDouble("balance")
               + "\nCurrency: " + resultSet.getString("currency");
           System.out.println(str);
           System.out.println("-------------");
@@ -155,7 +155,7 @@ public class Accounts {
         System.out.println("Your account:");
         while (resultSet.next()) {
           String str = "UserID: " + resultSet.getInt("userId")
-              + "\nBalance: " + resultSet.getInt("balance")
+              + "\nBalance: " + resultSet.getDouble("balance")
               + "\nCurrency: " + resultSet.getString("currency");
           System.out.println(str);
           System.out.println("-------------");

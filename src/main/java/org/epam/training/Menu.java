@@ -15,7 +15,7 @@ public class Menu {
           if ((Transactions.getAmount() + CheckBalance.checkBalance()) <= 2000000000) {
             transactions.popUpBalance();
             accounts.showAccountAfterTransaction();
-            transactions.createTransactionExistedAccount();
+            transactions.createPopUpExistedAccountTransaction();
           } else {
             System.out.println("Sorry, account limit is exceeded");
           }
@@ -25,7 +25,7 @@ public class Menu {
           Accounts.setBalance();
           accounts.createAccount();
           accounts.showCreatedAccount();
-          transactions.createTransactionNewAccount();
+          transactions.createPopUpNewAccountTransaction();
         }
       } else {
         if (Transactions.getTransaction() == 2) {
@@ -35,7 +35,7 @@ public class Menu {
             if (Transactions.getAmount() < CheckBalance.checkBalance()) {
               transactions.withdrawalCash();
               accounts.showAccountAfterTransaction();
-              transactions.createTransactionExistedAccount();
+              transactions.createWithdrawalExistedAccountTransaction();
             } else {
               System.out.println("Sorry, insufficient funds");
             }
@@ -45,7 +45,7 @@ public class Menu {
             Accounts.setBalance();
             accounts.createAccount();
             accounts.showCreatedAccount();
-            transactions.createTransactionNewAccount();
+            transactions.createWithdrawalNewAccountTransaction();
           }
         } else {
           if (Transactions.getTransaction() == 3) {
@@ -59,7 +59,7 @@ public class Menu {
               } else {
                 Accounts.setBalance();
                 accounts.createAccount();
-                transactions.createTransactionNewAccount();
+                transactions.createPopUpNewAccountTransaction();
                 accounts.showCreatedAccount();
               }
             }
