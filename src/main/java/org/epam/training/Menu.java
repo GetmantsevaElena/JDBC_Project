@@ -69,6 +69,7 @@ public class Menu {
         }
       }
     }
-    while (Transactions.getTransaction() != 4);
+    while (Transactions.getTransaction() != 4)
+        ;
   }
 }

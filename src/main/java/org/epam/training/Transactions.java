@@ -9,7 +9,7 @@ public class Transactions {
 
   Users users = new Users();
   private static int transactionOption;
-  private static int amount;
+  private static int checkedAmount;
 
   public static int getTransaction() {
     return transactionOption;
@@ -27,13 +27,20 @@ public class Transactions {
   }
 
   public static int getAmount() {
-    return amount;
+    return checkedAmount;
   }
 
   public void setAmount() {
     System.out.println("Enter your amount:");
     Scanner scanner = new Scanner(System.in);
-    amount = scanner.nextInt();
+    int amount = scanner.nextInt();
+    if (amount <= 100000000) {
+      checkedAmount = amount;
+    }
+    else {
+      System.out.println("Sorry, transaction size exceeded (The limit is 100`000`000)");
+      setAmount();
+    }
   }
 
   public void createTransactionExistedAccount() {
