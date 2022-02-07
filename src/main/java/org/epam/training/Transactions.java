@@ -33,9 +33,9 @@ public class Transactions {
   public void setAmount() {
     System.out.println("Enter your amount:");
     Scanner scanner = new Scanner(System.in);
-    Double amount = scanner.nextDouble();
+    double amount = scanner.nextDouble();
     if (amount <= 100000000) {
-      checkedAmount = amount;
+      checkedAmount = Math.round(amount * (int) Math.pow(10.0, 3)) / Math.pow(10.0, 3);
     }
     else {
       System.out.println("Sorry, transaction size exceeded (The limit is 100`000`000)");

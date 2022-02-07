@@ -21,7 +21,7 @@ public class Accounts {
   public static void setBalance() {
     System.out.println("Enter the amount you want to deposit");
     Scanner scanner = new Scanner(System.in);
-    balance = scanner.nextDouble();
+    balance = Math.round((scanner.nextDouble()) * (int) Math.pow(10.0, 3)) / Math.pow(10.0, 3);
   }
 
   public static String getDepositCurrency() {
@@ -90,33 +90,6 @@ public class Accounts {
     }
   }
 
-  public void showCreatedAccount() {
-    try {
-      Class.forName(Constant.JDBC_DRIVER);
-      Connection connection = DriverManager.getConnection(Constant.DATABASE_URL);
-      try {
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(
-            "SELECT * FROM ACCOUNTS WHERE currency = " + "'" + getDepositCurrency()
-                + "'" + "AND userId = " + "'" + users.getUserId() + "'");
-        System.out.println("Your account:");
-        while (resultSet.next()) {
-          String str = "UserID: " + resultSet.getInt("userId")
-              + "\nBalance: " + resultSet.getDouble("balance")
-              + "\nCurrency: " + resultSet.getString("currency");
-          System.out.println(str);
-          System.out.println("----------------");
-        }
-        resultSet.close();
-        statement.close();
-      } finally {
-        connection.close();
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-
   public void showAccountAfterTransaction() {
     try {
       Class.forName(Constant.JDBC_DRIVER);
@@ -150,7 +123,7 @@ public class Accounts {
       try {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(
-            "SELECT * FROM ACCOUNTS WHERE currency = " + "'" + getAccountCurrency()
+            "SELECT * FROM ACCOUNTS WHERE currency = " + "'" + getDepositCurrency()
                 + "'" + "AND userId = " + "'" + users.getUserId() + "'");
         System.out.println("Your account:");
         while (resultSet.next()) {

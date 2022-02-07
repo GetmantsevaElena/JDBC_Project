@@ -15,7 +15,7 @@ public class NewUser {
     Accounts.setBalance();
     accounts.createAccount();
     transactions.createPopUpNewAccountTransaction();
-    accounts.showCreatedAccount();
+    accounts.showCurrentAccount();
     Menu.menuOptionals();
   }
 }

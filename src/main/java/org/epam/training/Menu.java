@@ -22,10 +22,15 @@ public class Menu {
         } else {
           System.out.println("You don`t have account in this currency. Please create it");
           Accounts.setDepositCurrency();
-          Accounts.setBalance();
-          accounts.createAccount();
-          accounts.showCreatedAccount();
-          transactions.createPopUpNewAccountTransaction();
+          if (CheckCurrency.checkCurrency().contains(Accounts.getDepositCurrency())) {
+            System.out.println("You already have account in this currency");
+            accounts.showCurrentAccount();
+          } else {
+            Accounts.setBalance();
+            accounts.createAccount();
+            accounts.showCurrentAccount();
+            transactions.createPopUpNewAccountTransaction();
+          }
         }
       } else {
         if (Transactions.getTransaction() == 2) {
@@ -42,10 +47,15 @@ public class Menu {
           } else {
             System.out.println("You don`t have account in this currency. Please create it");
             Accounts.setDepositCurrency();
-            Accounts.setBalance();
-            accounts.createAccount();
-            accounts.showCreatedAccount();
-            transactions.createWithdrawalNewAccountTransaction();
+            if (CheckCurrency.checkCurrency().contains(Accounts.getDepositCurrency())) {
+              System.out.println("You already have account in this currency");
+              accounts.showCurrentAccount();
+            } else {
+              Accounts.setBalance();
+              accounts.createAccount();
+              accounts.showCurrentAccount();
+              transactions.createWithdrawalNewAccountTransaction();
+            }
           }
         } else {
           if (Transactions.getTransaction() == 3) {
@@ -60,7 +70,7 @@ public class Menu {
                 Accounts.setBalance();
                 accounts.createAccount();
                 transactions.createPopUpNewAccountTransaction();
-                accounts.showCreatedAccount();
+                accounts.showCurrentAccount();
               }
             }
           } else if (Transactions.getTransaction() == 4) {
